@@ -11,7 +11,7 @@ public class Main {
             t.add(Math.random()*100);
         }
         System.out.println(t.toString());
-        Tri.Tri_Insertion(t);
+        Tri.Tri_fusion_R_C(t, 0, 9);
         System.out.println(t.toString());
         
         /*t.add(1.0);

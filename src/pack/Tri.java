@@ -82,6 +82,19 @@ public class Tri {
         }
     }
     
+    public static void Tri_Insertion(ArrayList<Double> t) {
+    	int j,si;
+    	for(int i=1;i<t.size();i++) {
+    		j=i-1;
+    		si = i;
+    		while(j != -1 && t.get(j)<t.get(si)) {
+    			Tronspos(t, j, si);
+    			j--;
+    			si--;
+    		}
+    	}
+    }
+    
     
     
 }

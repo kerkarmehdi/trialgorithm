@@ -8,12 +8,14 @@ public class Main {
         
         ArrayList<Double> t= new ArrayList<Double>();
         for(int i = 1 ; i<= 10; i++){
-            t.add(Math.random()*100);
+            t.add((double)i);
         }
         System.out.println(t.toString());
-        Tri.Tri_fusion_R_C(t, 0, 9);
+        long a = System.currentTimeMillis();
+        Tri.Tri_Fusion_Insertion_D(t, 0, 9, 2);
+        long b = System.currentTimeMillis();
         System.out.println(t.toString());
-        
+        System.out.println(a+"\n"+b+"\n"+(b-a));
         /*t.add(1.0);
         t.add(2.0);
         t.add(1.0);

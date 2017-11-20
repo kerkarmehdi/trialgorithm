@@ -19,26 +19,27 @@ public class Tri {
     
     public static void Fusion_C(ArrayList<Double> t, int q, int a, int b)
     {
+    	//System.out.println(a+" "+b);
         int n1=q-a+1,n2=b-q;
                 
         ArrayList<Double> l,r;
         l=new ArrayList<Double>();
         r=new ArrayList<Double>();
-        
+        //System.out.println("t="+t.toString());
         //System.out.println("l=============");
         for(int i=0;i<n1;i++)
         {
-            
+
             l.add(t.get(a+i));
-            //System.out.println(l.toString());
-        }
+            
+        }//System.out.println(l.toString());
         //System.out.println("r=============");
         for(int j=1;j<=n2;j++)
         {
             
             r.add(t.get(q+j));
-            //System.out.println(r.toString());
-        }
+            
+        }//System.out.println(r.toString());
         l.add(Double.MAX_VALUE);
         r.add(Double.MAX_VALUE);
         int i=0,j=0;
@@ -93,7 +94,7 @@ public class Tri {
         int i=0,j=0;
         for(int k=a;k<=b;k++){
             
-            if(l.get(i) < r.get(j)){
+            if(l.get(i) > r.get(j)){
                 t.set(k, l.get(i));
                 i++;
             }else{ 
@@ -176,6 +177,58 @@ public class Tri {
     	}
     }
     
+    //le 4eme parametre et la taill maximale du tableau pour le tril par insertion 
+    public static void Tri_Fusion_Insertion_C(ArrayList<Double> t,int a,int b,int coefficient) {
+    	//le MAX_V et pour verifier si on est entree dans la 1er boucle
+    	int q=Integer.MAX_VALUE;
+    	//b-a+1 car on commence par 0 et "coefficient" est la taille du tableau
+    	if (b-a+1 <= coefficient && a<b) {
+    		int j,si;
+        	for(int i=a+1;i<=b;i++) {
+        		j=i-1;
+        		si = i;
+        		while(j != (a-1) && t.get(j)>t.get(si)) {
+        			Tronspos(t, j, si);
+        			j--;
+        			si--;
+        		}
+        	}
+    	}else if (a<b && q==Integer.MAX_VALUE){   
+    		
+    		q=(int)(a+b)/2;
+            Tri_Fusion_Insertion_C(t, a, q,coefficient);
+            Tri_Fusion_Insertion_C(t, q+1, b,coefficient);
+            Fusion_C(t,q,a,b);
+        }
+    	
+    }
+    
+    public static void Tri_Fusion_Insertion_D(ArrayList<Double> t,int a,int b,int coefficient) {
+    	//le MAX_V et pour verifier si on est entree dans la 1er boucle
+    	int q=Integer.MAX_VALUE;
+    	//b-a+1 car on commence par 0 et "coefficient" est la taille du tableau
+    	//tri insertion
+    	if (b-a+1 <= coefficient && a<b) {
+    		int j,si;
+        	for(int i=a+1;i<=b;i++) {
+        		j=i-1;
+        		si = i;
+        		while(j != (a-1) && t.get(j)<t.get(si)) {
+        			Tronspos(t, j, si);
+        			j--;
+        			si--;
+        		}
+        	}
+        //Tri fusion 
+    	}else if (a<b && q==Integer.MAX_VALUE){   
+    		
+    		q=(int)(a+b)/2;
+            Tri_Fusion_Insertion_D(t, a, q,coefficient);
+            Tri_Fusion_Insertion_D(t, q+1, b,coefficient);
+            Fusion_D(t,q,a,b);
+        }
+    	
+    }
     
     
 }

@@ -6,39 +6,40 @@ import java.util.ArrayList;
 
 public class Tri {
     
-    public static void Tri_fusion_R(ArrayList<Double> t, int a, int b)
+    public static void Tri_fusion_R_C(ArrayList<Double> t, int a, int b)
     {   
         int q;
         if (a<b)
         {    q=(int)(a+b)/2;
-            Tri_fusion_R(t, a, q);
-            Tri_fusion_R(t, q+1, b);
-            Fusion(t,q,a,b);
+            Tri_fusion_R_C(t, a, q);
+            Tri_fusion_R_C(t, q+1, b);
+            Fusion_C(t,q,a,b);
         }
     }
     
-    public static void Fusion(ArrayList<Double> t, int q, int a, int b)
+    public static void Fusion_C(ArrayList<Double> t, int q, int a, int b)
     {
+    	//System.out.println(a+" "+b);
         int n1=q-a+1,n2=b-q;
                 
         ArrayList<Double> l,r;
         l=new ArrayList<Double>();
         r=new ArrayList<Double>();
-        
-        System.out.println("l=============");
+        //System.out.println("t="+t.toString());
+        //System.out.println("l=============");
         for(int i=0;i<n1;i++)
         {
-            
+
             l.add(t.get(a+i));
-            System.out.println(l.toString());
-        }
-        System.out.println("r=============");
+            
+        }//System.out.println(l.toString());
+        //System.out.println("r=============");
         for(int j=1;j<=n2;j++)
         {
             
             r.add(t.get(q+j));
-            System.out.println(r.toString());
-        }
+            
+        }//System.out.println(r.toString());
         l.add(Double.MAX_VALUE);
         r.add(Double.MAX_VALUE);
         int i=0,j=0;
@@ -52,13 +53,71 @@ public class Tri {
                 j++;
             }
         }
-        System.out.println("t = "+t.toString());
+        //System.out.println("t = "+t.toString());
     }
     
-    public static void Tri_Bull(ArrayList<Double> t){
+    public static void Tri_fusion_R_D(ArrayList<Double> t, int a, int b)
+    {   
+        int q;
+        if (a<b)
+        {    q=(int)(a+b)/2;
+            Tri_fusion_R_D(t, a, q);
+            Tri_fusion_R_D(t, q+1, b);
+            Fusion_D(t,q,a,b);
+        }
+    }
+    
+    public static void Fusion_D(ArrayList<Double> t, int q, int a, int b)
+    {
+        int n1=q-a+1,n2=b-q;
+                
+        ArrayList<Double> l,r;
+        l=new ArrayList<Double>();
+        r=new ArrayList<Double>();
+        
+        //System.out.println("l=============");
+        for(int i=0;i<n1;i++)
+        {
+            
+            l.add(t.get(a+i));
+            //System.out.println(l.toString());
+        }
+        //System.out.println("r=============");
+        for(int j=1;j<=n2;j++)
+        {
+            
+            r.add(t.get(q+j));
+            //System.out.println(r.toString());
+        }
+        l.add(Double.MIN_VALUE);
+        r.add(Double.MIN_VALUE);
+        int i=0,j=0;
+        for(int k=a;k<=b;k++){
+            
+            if(l.get(i) > r.get(j)){
+                t.set(k, l.get(i));
+                i++;
+            }else{ 
+                t.set(k, r.get(j));
+                j++;
+            }
+        }
+        //System.out.println("t = "+t.toString());
+    }
+    
+    public static void Tri_Bull_D(ArrayList<Double> t){
         for(int i = 0; i<t.size();i++){
             for(int j = i+1; j<t.size();j++){
                 if(t.get(i) < t.get(j))
+                    Tri.Tronspos(t,i,j);
+            }
+        }
+    }
+    
+    public static void Tri_Bull_C(ArrayList<Double> t){
+        for(int i = 0; i<t.size();i++){
+            for(int j = i+1; j<t.size();j++){
+                if(t.get(i) > t.get(j))
                     Tri.Tronspos(t,i,j);
             }
         }
@@ -71,17 +130,105 @@ public class Tri {
         t.set(j, e);
         
     }
-    
-    public static void Tri_Bull_R(ArrayList<Double> t,int i, int j){
+    //i est le premier element et j et le deuxieme i=0 j=1
+    public static void Tri_Bull_R_D(ArrayList<Double> t,int i, int j){
         if(i<t.size() && j<t.size()){
             if(t.get(i) < t.get(j))
                 Tronspos(t, i, j);
-            Tri_Bull_R(t, i, j+1);
+            Tri_Bull_R_D(t, i, j+1);
             if(i==j-1)
-                Tri_Bull_R(t, i+1, j+1);
+                Tri_Bull_R_D(t, i+1, j+1);
         }
     }
     
+    public static void Tri_Bull_R_C(ArrayList<Double> t,int i, int j){
+        if(i<t.size() && j<t.size()){
+            if(t.get(i) > t.get(j))
+                Tronspos(t, i, j);
+            Tri_Bull_R_C(t, i, j+1);
+            if(i==j-1)
+                Tri_Bull_R_C(t, i+1, j+1);
+        }
+    }
+    
+    public static void Tri_Insertion_D(ArrayList<Double> t) {
+    	int j,si;
+    	for(int i=1;i<t.size();i++) {
+    		j=i-1;
+    		si = i;
+    		while(j != -1 && t.get(j)<t.get(si)) {
+    			Tronspos(t, j, si);
+    			j--;
+    			si--;
+    		}
+    	}
+    }
+    
+    public static void Tri_Insertion_C(ArrayList<Double> t) {
+    	int j,si;
+    	for(int i=1;i<t.size();i++) {
+    		j=i-1;
+    		si = i;
+    		while(j != -1 && t.get(j)>t.get(si)) {
+    			Tronspos(t, j, si);
+    			j--;
+    			si--;
+    		}
+    	}
+    }
+    
+    //le 4eme parametre et la taill maximale du tableau pour le tril par insertion 
+    public static void Tri_Fusion_Insertion_C(ArrayList<Double> t,int a,int b,int coefficient) {
+    	//le MAX_V et pour verifier si on est entree dans la 1er boucle
+    	int q=Integer.MAX_VALUE;
+    	//b-a+1 car on commence par 0 et "coefficient" est la taille du tableau
+    	if (b-a+1 <= coefficient && a<b) {
+    		int j,si;
+        	for(int i=a+1;i<=b;i++) {
+        		j=i-1;
+        		si = i;
+        		while(j != (a-1) && t.get(j)>t.get(si)) {
+        			Tronspos(t, j, si);
+        			j--;
+        			si--;
+        		}
+        	}
+    	}else if (a<b && q==Integer.MAX_VALUE){   
+    		
+    		q=(int)(a+b)/2;
+            Tri_Fusion_Insertion_C(t, a, q,coefficient);
+            Tri_Fusion_Insertion_C(t, q+1, b,coefficient);
+            Fusion_C(t,q,a,b);
+        }
+    	
+    }
+    
+    public static void Tri_Fusion_Insertion_D(ArrayList<Double> t,int a,int b,int coefficient) {
+    	//le MAX_V et pour verifier si on est entree dans la 1er boucle
+    	int q=Integer.MAX_VALUE;
+    	//b-a+1 car on commence par 0 et "coefficient" est la taille du tableau
+    	//tri insertion
+    	if (b-a+1 <= coefficient && a<b) {
+    		int j,si;
+        	for(int i=a+1;i<=b;i++) {
+        		j=i-1;
+        		si = i;
+        		while(j != (a-1) && t.get(j)<t.get(si)) {
+        			Tronspos(t, j, si);
+        			j--;
+        			si--;
+        		}
+        	}
+        //Tri fusion 
+    	}else if (a<b && q==Integer.MAX_VALUE){   
+    		
+    		q=(int)(a+b)/2;
+            Tri_Fusion_Insertion_D(t, a, q,coefficient);
+            Tri_Fusion_Insertion_D(t, q+1, b,coefficient);
+            Fusion_D(t,q,a,b);
+        }
+    	
+    }
     
     
 }
